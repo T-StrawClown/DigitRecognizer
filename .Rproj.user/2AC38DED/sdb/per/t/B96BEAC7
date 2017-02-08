@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "raw.train <- read.csv(\"data/train.csv\")\nraw.test <- read.csv(\"data/test.csv\")\n\nrequire(dplyr)\nraw.train.zero_cols <- data.frame(names = names(raw.train[colSums(raw.train) == 0]), stringsAsFactors = F)\nraw.test.zero_cols <- data.frame(names = names(raw.test[colSums(raw.test) == 0]), stringsAsFactors = F)\n\nds.zero_cols <- inner_join(raw.train.zero_cols, raw.test.zero_cols, c(\"names\" = \"names\"))\nds.train.all <- raw.train %>%\n  select(-which(names(raw.train) %in% ds.zero_cols$names))\nds.train.all$label <- as.factor(ds.train.all$label)\nds.test <- raw.test %>%\n  select(-which(names(raw.test) %in% ds.zero_cols$names))\n\nset.seed(42)\nrequire(caret)\ninTrain <- createDataPartition(y = ds.train.all$label, p = .7, list = F)\nds.train <- ds.train.all[inTrain,]\nds.val <- ds.train.all[-inTrain,]\n\n",
+    "created" : 1484556871568.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "812874828",
+    "id" : "B96BEAC7",
+    "lastKnownWriteTime" : 1485763148,
+    "last_content_update" : 1485763148407,
+    "path" : "D:/git/kaggle/DigitRecognizer/prepare_data.R",
+    "project_path" : "prepare_data.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

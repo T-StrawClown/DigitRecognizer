@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#train <- data.matrix(raw.train[inTrain,])\n#test <- data.matrix(raw.train[-inTrain,-1])\n\ntrain <- data.matrix(raw.train)\ntest <- data.matrix(raw.test)\n\nX <- train[,-1]\ny <- train[,1]\n\nX <- t(X/255)\n#X <- t(sign(X))\ntest <- t(test/255)\n#test <- t(sign(test))\n\ndata <- mx.symbol.Variable(\"data\")\n#fc0 <- mx.symbol.FullyConnected(data, name=\"fc0\", num_hidden=512)\n#act0 <- mx.symbol.Activation(fc0, name=\"relu0\", act_type=\"relu\")\n#fc1 <- mx.symbol.FullyConnected(act0, name=\"fc1\", num_hidden=256)\n#act1 <- mx.symbol.Activation(fc1, name=\"relu1\", act_type=\"relu\")\n#fc2 <- mx.symbol.FullyConnected(act1, name=\"fc2\", num_hidden=64)\nfc2 <- mx.symbol.FullyConnected(data, name=\"fc2\", num_hidden=64)\nact2 <- mx.symbol.Activation(fc2, name=\"relu2\", act_type=\"relu\")\nfc3 <- mx.symbol.FullyConnected(act2, name=\"fc3\", num_hidden=10)\nsoftmax <- mx.symbol.SoftmaxOutput(fc3, name=\"sm\")\n\ndevices <- mx.cpu()\n\nmx.set.seed(42)\nmodel <- mx.model.FeedForward.create(softmax, X=X, y=y,\n                                     ctx=devices, num.round=20, array.batch.size=100,\n                                     learning.rate=0.07, momentum=0.9,  eval.metric=mx.metric.accuracy,\n                                     initializer=mx.init.uniform(0.07),\n                                     epoch.end.callback=mx.callback.log.train.metric(100))\n\npreds <- apply(predict(model, test), 2, which.max) - 1\n--confusionMatrix(preds, raw.train[-inTrain,1])\nsub.mxnet <- data.frame(ImageId=1:ncol(test), Label=preds)\nwrite.csv(sub.mxnet, paste0(getwd(), \"/submission/mxnet_V2.csv\"), row.names=FALSE, quote=FALSE)\n\n\n",
+    "created" : 1485162159743.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1605198644",
+    "id" : "441328F5",
+    "lastKnownWriteTime" : 0,
+    "last_content_update" : 1485172707857,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

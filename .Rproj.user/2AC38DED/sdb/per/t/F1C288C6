@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "par(mfrow = c(10, 20), mar = c(0,0,0,0))\nx <- 5*(1:28)\ny <- 5*(1:28)\nimg <- sample(1:nrow(ds.train), 100)\nfor (i in img) {\n  m <- matrix(unlist(matrix(raw.train[i,-1], 28, 28, F)), 28, 28)\n  #m <- apply(m, 2, rev)\n  m <- t(apply(m, 1, rev))\n  image(x, y, m, col = grey((255:0)/255), axes = F)\n  image(x, y, m, col = grey((1:0)), axes = F)\n}\nmatrix(raw.train[img,1], 10, 10, T)\n\n",
+    "created" : 1485155847861.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1450882230",
+    "id" : "F1C288C6",
+    "lastKnownWriteTime" : 1484913810,
+    "last_content_update" : 1484913810,
+    "path" : "D:/git/kaggle/DigitRecognizer/paint_100_random.R",
+    "project_path" : "paint_100_random.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

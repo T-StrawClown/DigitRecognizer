@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "require(mxnet)\n\ndata <- mx.symbol.Variable(\"data\")\nhl1 <- mx.symbol.FullyConnected(data, name = \"hl1\", num_hidden = 360)\nact1 <- mx.symbol.Activation(hl1, name = \"relu1\", act_type = \"relu\")\n\nhl2 <- mx.symbol.FullyConnected(data, name = \"hl2\", num_hidden = 36)\nact2 <- mx.symbol.Activation(hl2, name = \"relu2\", act_type = \"relu\")\n\nhl3 <- mx.symbol.FullyConnected(act2, name = \"hl3\", num_hidden = 10)\nsm <- mx.symbol.SoftmaxOutput(hl3, name = \"sm\")\n\n#train.x <- t(data.matrix(ds.train_sign[,-1], rownames.force = F))\n#train.y <- as.vector(as.integer(ds.train_sign[,1], rownames.force = F)-1)\n#train.x <- t(data.matrix(sign(ds.train.all[,-1]), rownames.force = F))\n#train.y <- as.vector(as.integer(ds.train.all[,1], rownames.force = F)-1)\ntrain.x <- t(data.matrix(ds.train.all[,-1]/255, rownames.force = F))\ntrain.y <- as.vector(as.integer(ds.train.all[,1], rownames.force = F)-1)\n\ndev <- mx.cpu()\n\nmx.set.seed(42)\nmdl.mxnet <- mx.model.FeedForward.create(sm, X = train.x, y = train.y,\n                                         ctx = dev, num.round = 20,\n                                         array.batch.size = 100,\n                                         learning.rate = 0.07, momentum = 0.9,\n                                         eval.metric = mx.metric.accuracy,\n                                         initializer = mx.init.uniform(0.07),\n                                         epoch.end.callback = mx.callback.log.train.metric(100))\n\n#ds.val.mxnet_sign <- t(data.matrix(ds.val_sign[,-1], rownames.force = F))\n#pred.mxnet <- apply(predict(mdl.mxnet, ds.val.mxnet_sign), 2, which.max) - 1\n#pred.mxnet <- predict(mdl.mxnet, t(data.matrix(sign(ds.test), rownames.force = F)))\npred.mxnet <- predict(mdl.mxnet, t(data.matrix(ds.test/255, rownames.force = F)))\npred.mxnet <- apply(pred.mxnet, 2, which.max) - 1\n\n#conf.mxnet <- confusionMatrix(pred.mxnet, ds.val_sign[,1])\nsub.mxnet <- data.frame(ImageId=1:nrow(ds.test), Label=pred.mxnet)\nwrite.csv(sub.mxnet, paste0(getwd(), \"/submission/mxnet_V5.csv\"), row.names=FALSE, quote=FALSE)\n",
+    "created" : 1484916046053.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2077950836",
+    "id" : "4CE50D87",
+    "lastKnownWriteTime" : 1485763143,
+    "last_content_update" : 1485763143641,
+    "path" : "D:/git/kaggle/DigitRecognizer/train_mxnet.R",
+    "project_path" : "train_mxnet.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

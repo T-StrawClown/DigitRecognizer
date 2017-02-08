@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "require(nnet)\n\nmdl.nn <- nnet(formula = label ~ ., data = ds.train, size = 36, MaxNWts = 60000)\npred.nn <- predict(mdl.nn, ds.val, \"class\")\nconf.nn <- confusionMatrix(pred.nn, ds.val$label)\n\nds.train_sign <- ds.train\nds.train_sign[,2:ncol(ds.train_sign)] <- sign(ds.train_sign[,2:ncol(ds.train_sign)])\nds.val_sign <- ds.val\nds.val_sign[,2:ncol(ds.val_sign)] <- sign(ds.val_sign[,2:ncol(ds.val_sign)])\n\n\nmdl.nn_sign <- nnet(formula = label ~ ., data = ds.train_sign, size = 36, MaxNWts = 60000)\npred.nn_sign <- predict(mdl.nn_sign, ds.val_sign, \"class\")\nconf.nn_sign <- confusionMatrix(pred.nn_sign, ds.val_sign$label)\n",
+    "created" : 1484818970753.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "968220575",
+    "id" : "B80548B3",
+    "lastKnownWriteTime" : 1484913655,
+    "last_content_update" : 1484913655802,
+    "path" : "D:/git/kaggle/DigitRecognizer/train_nnet.R",
+    "project_path" : "train_nnet.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

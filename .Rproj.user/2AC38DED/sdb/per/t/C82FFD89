@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "require(neuralnet)\nrequire(nnet)\n\nds.train$label <- as.integer(ds.train$label)\nds.val$label <- as.integer(ds.val$label)\nds.train_cc <- data.frame(cbind(class.ind(ds.train$label), ds.train[,-1]))\n#names(ds.train_cc)[1:10] <- 1:10\nds.val_cc <- data.frame(cbind(class.ind(ds.val$label), ds.val[,-1]))\n#names(ds.val_cc)[1:10] <- 1:10\n\nx.names <- names(ds.train)[-1]\nformula <- as.formula(paste('X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 + X9 + X10 ~ ', paste(x.names, collapse = ' + ')))\n\nmdl.nn <- neuralnet(formula, data = ds.train_cc, algorithm = 'backprop', hidden = c(100),\n                    lifesign = 'full', lifesign.step = 1, rep = 1, stepmax = 100,\n                    learningrate = 25, linear.output = F, err.fct = 'ce')\nmdl.pred <- prediction(mdl.nn)\npred.nn <- compute(mdl.nn, ds.val_cc[,-(1:10)], rep = 10)\n",
+    "created" : 1484724795756.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "5989511",
+    "id" : "C82FFD89",
+    "lastKnownWriteTime" : 1484836558,
+    "last_content_update" : 1484836558398,
+    "path" : "D:/git/kaggle/DigitRecognizer/train_nn.R",
+    "project_path" : "train_nn.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

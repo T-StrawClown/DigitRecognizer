@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "require(doParallel)\ncluster <- makeCluster(detectCores())\nregisterDoParallel()\n\ntr_control = trainControl(method = \"cv\",\n                          number = 6)\n\n# random forest, 6 fold cross-validation\nrequire(randomForest)\ngrid.rf <- expand.grid(mtry = c(2^(1:4)))\nmdl.rf <- train(label ~ ., data = ds.train, method = \"rf\", trControl = tr_control, tuneGrid = grid.rf)\n# mdl.rf <- randomForest(classe ~ ., data = ds.training, mtry = 2, ntree = 200)\n\nstopCluster()\n\n# grid.rf <- expand.grid(mtry = c(2^(5:6)))\n# mdl.rf1 <- train(label ~ ., data = ds.train, method = \"rf\", trControl = tr_control, tuneGrid = grid.rf)\n# \npred.rf <- predict(mdl.rf$finalModel, newdata = ds.val)\nconf.rf <- confusionMatrix(round(pred.rf), ds.val$label)\n\n",
+    "created" : 1484563036470.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2265148896",
+    "id" : "B8DFBC65",
+    "lastKnownWriteTime" : 1484724773,
+    "last_content_update" : 1484724773661,
+    "path" : "D:/git/kaggle/DigitRecognizer/train.R",
+    "project_path" : "train.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
